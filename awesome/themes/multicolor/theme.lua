@@ -82,6 +82,6 @@ theme.layout_magnifier  = theme.confdir .. "/layouts/magnifier.png"
 theme.layout_floating   = theme.confdir .. "/layouts/floating.png"
 
 --theme.awesome_icon = 
-theme.wallpaper = theme.confdir .. "/os.jpg"
+theme.wallpaper = theme.confdir .. "/wall.png"
 
 return theme

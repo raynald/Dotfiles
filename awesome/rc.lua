@@ -34,6 +34,7 @@ function run_once(cmd)
 run_once("urxvtd")
 run_once("ibus-daemon")
 run_once("unclutter -idle 10")
+run_once("xscreensaver")
 
 -- }}}
 
@@ -129,14 +130,20 @@ end
 
 -- Define a tag table which hold all screen tags.
 tags = {
-       names = { "web", "term", "docs", "media", "files", "other" },       
-       layout = { layouts[1], layouts[3], layouts[4], layouts[1], layouts[7], layouts[1] } 
+       names = { "A", "C", "E", "G", "I" },       
+       layout = { layouts[1], layouts[4], layouts[7], layouts[3], layouts[3]} 
        }
-for s = 1, screen.count() do
+-- for s = 1, screen.count() do
 -- Each screen has its own tag table.
-   tags[s] = awful.tag(tags.names, s, tags.layout)
-end
+   tags[1] = awful.tag(tags.names, 1, tags.layout)
+-- end
 -- }}}
+--
+tags2 = {
+       names = { "B", "D", "F", "H", "J" },       
+       layout = { layouts[3], layouts[1], layouts[1], layouts[1], layouts[1] } 
+       }
+tags[2] = awful.tag(tags2.names, 2, tags2.layout)
                                           
 -- {{{ Menu
 myaccessories = {
@@ -596,7 +603,7 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the upper wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 18 }) 
+    mywibox[s] = awful.wibox({ position = "bottom", screen = s, height = 18 }) 
     --border_width = 0, height =  20 })
         
     -- Widgets that are aligned to the upper left
@@ -780,6 +787,8 @@ globalkeys = awful.util.table.join(
                                               vicious.force({ volumewidget })
                                           end),
 
+    awful.key({ altkey, "Control" }, "l", function () os.execute("xscreensaver-command --lock") end),
+ 
     -- Music control
     awful.key({ altkey, "Control" }, "Up", function () 
                                               awful.util.spawn( "mpc toggle", false ) 
@@ -808,7 +817,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, 	     }, "t", 	    function () awful.util.spawn( "thunderbird", false ) end),
     awful.key({ modkey,        }, "d", 	    function () awful.util.spawn( "thunar", false ) end),
     
-    -- Prompt
+    -- Another screen
+     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
+
+     -- Prompt
     awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
 
     awful.key({ modkey }, "x",
