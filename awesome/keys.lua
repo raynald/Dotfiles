@@ -166,12 +166,14 @@ keys.globalkeys = gears.table.join(
    awful.key({}, "XF86KbdBrightnessUp",
       function()
          awful.spawn("light -s sysfs/leds/smc::kbd_backlight -A 10", false)
+         awesome.emit_signal("keyboard_brightness_change")
       end,
       {description = "+10%", group = "hotkeys"}
    ),
    awful.key({}, "XF86KbdBrightnessDown",
       function()
          awful.spawn("light -s sysfs/leds/smc::kbd_backlight -U 10", false)
+         awesome.emit_signal("keyboard_brightness_change")
       end,
       {description = "-10%", group = "hotkeys"}
    ),
