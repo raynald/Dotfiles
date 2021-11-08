@@ -83,16 +83,56 @@ awesome.connect_signal("volume_change",
    function()
       -- set new volume value
       awful.spawn.easy_async_with_shell(
-         "amixer sget Master | grep 'Right:' | awk -F '[][]' '{print $2}'| sed 's/[^0-9]//g'",
+         "amixer sget Master | grep 'Right:' | awk -F '[][]' '{print $2,\",\",$4}'| sed 's/[^0-9a-z,]//g'",
          function(stdout)
-            local volume_level = tonumber(stdout)
-            volume_bar.value = volume_level
-            if (volume_level > 40) then
-               volume_icon:set_image(icon_dir .. "volume.png")
-            elseif (volume_level > 0) then
-               volume_icon:set_image(icon_dir .. "volume-low.png")
-            else
+            one, two = string.match(stdout, "(.*)%,(.*)")
+            local volume_level = tonumber(one)
+            local volume_status = tostring(two)
+            if (string.len(two) == 4) then  
+               volume_bar.value = volume_level
                volume_icon:set_image(icon_dir .. "volume-off.png")
+            else
+                volume_bar.value = volume_level
+                if (volume_level > 40) then
+                   volume_icon:set_image(icon_dir .. "volume.png")
+                else
+                   volume_icon:set_image(icon_dir .. "volume-low.png")
+                end
+            end
+         end,
+         false
+      )
+
+      -- make volume_adjust component visible
+      if volume_adjust.visible then
+         hide_volume_adjust:again()
+      else
+         volume_adjust.visible = true
+         hide_volume_adjust:start()
+      end
+   end
+)
+
+-- show volume-adjust when "volume_toggle" signal is emitted
+awesome.connect_signal("volume_toggle",
+   function()
+      -- set new volume value
+      awful.spawn.easy_async_with_shell(
+         "amixer sget Master | grep 'Right:' | awk -F '[][]' '{print $2,\",\",$4}'| sed 's/[^0-9a-z,]//g'",
+         function(stdout)
+            one, two = string.match(stdout, "(.*)%,(.*)")
+            local volume_level = tonumber(one)
+            local volume_status = tostring(two)
+            if (string.len(two) == 3) then  
+               volume_bar.value = 0
+               volume_icon:set_image(icon_dir .. "volume-off.png")
+            else
+                volume_bar.value = volume_level
+                if (volume_level > 40) then
+                   volume_icon:set_image(icon_dir .. "volume.png")
+                else
+                   volume_icon:set_image(icon_dir .. "volume-low.png")
+                end
             end
          end,
          false

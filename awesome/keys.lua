@@ -181,12 +181,14 @@ keys.globalkeys = gears.table.join(
    awful.key({}, "XF86MonBrightnessUp",
       function()
          awful.spawn("xbacklight -inc 10", false)
+         awesome.emit_signal("brightness_change")
       end,
       {description = "+10%", group = "hotkeys"}
    ),
    awful.key({}, "XF86MonBrightnessDown",
       function()
          awful.spawn("xbacklight -dec 10", false)
+         awesome.emit_signal("brightness_change")
       end,
       {description = "-10%", group = "hotkeys"}
    ),
@@ -209,7 +211,7 @@ keys.globalkeys = gears.table.join(
    awful.key({}, "XF86AudioMute",
       function()
          awful.spawn("amixer -D pulse set Master 1+ toggle", false)
-         awesome.emit_signal("volume_change")
+         awesome.emit_signal("volume_toggle")
       end,
       {description = "toggle mute", group = "hotkeys"}
    ),
@@ -515,13 +517,13 @@ keys.globalkeys = gears.table.join(
       {description = "restore minimized", group = "client"}
    ),
 
-   awful.key({altkey}, "Left", 
+   awful.key({altkey, "Shift"}, "Left", 
      function()
          awful.tag.viewprev()
      end, 
      {description = "prev tag", group = "tag"}
    ),
-   awful.key({altkey}, "Right", 
+   awful.key({altkey, "Shift"}, "Right", 
      function()
          awful.tag.viewnext()
      end, 

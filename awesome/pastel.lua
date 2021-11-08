@@ -26,6 +26,7 @@ pastel.initialize = function()
    require("components.pastel.wallpaper")
    require("components.exit-screen")
    require("components.volume-adjust")
+   require("components.brightness-adjust")
 
    -- Import panels
    local left_panel = require("components.pastel.left-panel")
