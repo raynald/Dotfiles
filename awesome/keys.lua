@@ -98,7 +98,6 @@ end
 -- Mouse bindings
 -- ===================================================================
 
-
 -- Mouse buttons on the desktop
 keys.desktopbuttons = gears.table.join(
    -- left click on desktop to hide notification
@@ -118,7 +117,6 @@ keys.clientbuttons = gears.table.join(
          c:raise()
       end
    ),
-
    -- Move and Resize Client
    awful.button({modkey}, 1, awful.mouse.client.move),
    awful.button({modkey}, 3, awful.mouse.client.resize)
@@ -150,7 +148,15 @@ keys.globalkeys = gears.table.join(
       {description = "application launcher", group = "launcher"}
    ),
 
-   -- Keyboard Brightness
+   -- Switch layout
+   awful.key({}, "XF86LaunchA",
+      function()
+         awful.layout.inc(1)
+      end,
+      {description = "next layout", group = "layout"}
+   ),
+ 
+   -- Launch Rofi
    awful.key({}, "XF86LaunchB",
       function()
          awful.spawn(apps.launcher)

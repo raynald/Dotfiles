@@ -53,7 +53,7 @@ function folder.create(directory)
          widget = wibox.widget.imagebox,
          resize = true
       },
-      layout = wibox.layout.align.horizontal
+      layout = wibox.layout.align.vertical
    }
 
    local docu_button = clickable_container(wibox.container.margin(docu_widget, dpi(8), dpi(8), dpi(8), dpi(8)))

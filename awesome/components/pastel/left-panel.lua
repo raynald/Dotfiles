@@ -17,7 +17,7 @@ local awful = require("awful")
 local gears = require("gears")
 
 local tag_list = require("widgets.tag-list")
-local separator = require("widgets.horizontal-separator")
+local separator = require("widgets.vertical-separator")
 local folder = require("widgets.folder")
 
 local home_dir = os.getenv("HOME")
@@ -42,19 +42,19 @@ left_panel.create = function(s)
 
    panel = awful.wibar({
       screen = s,
-      position = "left",
-      height = s.geometry.height * 7/10,
-      width = beautiful.left_panel_width,
+      position = "bottom",
+      width = s.geometry.width * 6/10,
+      height = beautiful.left_panel_width,
       ontop = true,
       shape = panel_shape
    })
 
    panel:setup {
       expand = "none",
-      layout = wibox.layout.align.vertical,
+      layout = wibox.layout.align.horizontal,
       nil,
       {
-         layout = wibox.layout.fixed.vertical,
+         layout = wibox.layout.fixed.horizontal,
          -- add taglist widget
          tag_list.create(s),
          -- add folders widgets
@@ -65,7 +65,7 @@ left_panel.create = function(s)
             folder.create(home_dir .. "/Downloads"),
             separator,
             folder.create("trash://"),
-            layout = wibox.layout.fixed.vertical,
+            layout = wibox.layout.fixed.horizontal,
          }
       },
       nil
@@ -74,9 +74,9 @@ left_panel.create = function(s)
    -- panel background that becomes visible when client is maximized
    panel_bg = wibox({
       screen = s,
-      position = "left",
-      height = s.geometry.height,
-      width = beautiful.left_panel_width,
+      position = "bottom",
+      width = s.geometry.width,
+      height = beautiful.left_panel_width,
       visible = false
    })
 
